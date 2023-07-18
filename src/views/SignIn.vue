@@ -14,7 +14,7 @@
             Avec ÇA POTAGE, achetez et vendez tous les produits dont votre potager a besoin !
           </p>
           <p class="flex flex-col items-center justify-center mt-10 text-center">
-            <span>Déjà un compte ?</span>
+            <span><router-link to="/login">Déjà un compte ?</router-link></span>
           </p>
           <p class="mt-6 text-sm text-center text-gray-300">
             Lisez nos <a href="#" class="underline">conditions générales</a>
@@ -29,6 +29,8 @@
                 type="email"
                 id="email"
                 autofocus
+                v-model="email"
+                placeholder="Exemple : monadressemail@gmail.com"
                 class="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200"
               />
             </div>
@@ -40,6 +42,8 @@
               <input
                 type="password"
                 id="password"
+                v-model="password"
+                placeholder="**********"
                 class="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200"
               />
             </div>
@@ -54,6 +58,7 @@
             <div>
               <button
                 type="submit"
+                @click="register"
                 class="w-full px-4 py-2 text-lg font-semibold text-white transition-colors duration-300 bg-myGreen rounded-md shadow hover:bg-white focus:outline-none focus:ring-blue-200 focus:ring-4 hover:text-myGreen"
               >
                 S'inscrire
@@ -83,8 +88,26 @@
     </div>
 </template>
     
-<script lang="ts">
-export default {
+<script setup lang="ts">
+import {ref} from 'vue';
+import {useRouter} from 'vue-router';
+import {getAuth, createUserWithEmailAndPassword} from "firebase/auth";
 
+const email = ref("");
+const password = ref("");
+const router = useRouter()
+
+const register = () => {
+  const auth = getAuth()
+  createUserWithEmailAndPassword(auth, email.value, password.value)
+  .then(() => {
+    console.log("Connexion réussie !");
+    console.log(auth.currentUser);
+    router.push({ name: 'log-in' });
+  })
+  .catch((error) => {
+    console.log(error.code);
+    alert(error.message)
+  })
 }
 </script>

@@ -7,22 +7,28 @@
             </div>
             <ul class="flex items-center flex-1 justify-end" v-show="!mobile" id="navigation">
                 <li class="p-4"><router-link id="link" :to="{ name: '' }"><i
-                            class="fa-solid fa-message text-2xl transition duration-[0.5s] ease-all pb-1"></i></router-link>
+                            class="flex text-center flex-col fa-solid fa-square-plus text-2xl transition duration-[0.5s] ease-all pb-1"></i>Publier</router-link>
                 </li>
                 <li class="p-4"><router-link id="link" :to="{ name: '' }"><i
-                            class="fa-solid fa-user text-2xl transition duration-[0.5s] ease-all pb-1"></i></router-link>
+                            class="flex text-center flex-col fa-solid fa-message text-2xl transition duration-[0.5s] ease-all pb-1"></i>Message</router-link>
+                </li>
+                <li class="p-4"><router-link id="link" :to="{ name: '' }"><i
+                            class="flex text-center flex-col fa-solid fa-user text-2xl transition duration-[0.5s] ease-all pb-1"></i>Profile</router-link>
                 </li>
             </ul>
             <div class="flex items-center absolute top-0 right-6 h-full">
                 <i @click="toggleMobileNav" v-show="mobile" class="fa-solid fa-bars cursor-pointer transition-transform rotate-180" :class="{ 'icon-active': mobileNav }"></i>
             </div>
             <transition name="mobile-nav">
-                <ul class="flex flex-col fixed w-full h-full bg-white top-0 left-0 text-myGreen" v-show="mobileNav" id="dropdown-nav">
-                <li class="p-4"><router-link id="link" :to="{ name: '' }"><i
-                            class="fa-solid fa-message text-2xl transition duration-[0.5s] ease-all pb-1"></i></router-link>
+                <ul class="flex flex-col fixed w-full h-full bg-myLightGrey top-0 left-0 text-white" v-show="mobileNav" id="dropdown-nav">
+                <li class="px-8 py-8 flex"><router-link id="link" :to="{ name: '' }"><i
+                            class="fa-solid fa-square-plus text-2xl text-myGreen transition duration-[0.5s] ease-all pb-1 pr-2"></i>Publier</router-link>
                 </li>
-                <li class="p-4"><router-link id="link" :to="{ name: '' }"><i
-                            class="fa-solid fa-user text-2xl transition duration-[0.5s] ease-all pb-1"></i></router-link>
+                <li class="px-8 py-8 flex"><router-link id="link" :to="{ name: '' }"><i
+                            class="fa-solid fa-message text-2xl text-myGreen transition duration-[0.5s] ease-all pb-1 pr-2"></i>Message</router-link>
+                </li>
+                <li class="px-8 py-8 flex"><router-link id="link" :to="{ name: '' }"><i
+                            class="fa-solid fa-user text-2xl text-myGreen transition duration-[0.5s] ease-all pb-1 pr-2"></i>Profile</router-link>
                 </li>
             </ul>
             </transition>

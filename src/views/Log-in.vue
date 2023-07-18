@@ -14,7 +14,7 @@
             Avec ÇA POTAGE, achetez et vendez tous les produits dont votre potager a besoin !
           </p>
           <p class="flex flex-col items-center justify-center mt-10 text-center">
-            <span>Pas de compte ?</span>
+            <span><router-link to="/signin">Pas de compte ?</router-link></span>
           </p>
           <p class="mt-6 text-sm text-center text-gray-300">
             Lisez nos <a href="#" class="underline">conditions générales</a>
@@ -36,7 +36,7 @@
             <div class="flex flex-col space-y-1">
               <div class="flex items-center justify-between">
                 <label for="password" class="text-sm font-semibold text-gray-500">Mot de passe</label>
-                <a href="#" class="text-sm text-blue-600 hover:underline focus:text-blue-800">Mot de passe oublié ?</a>
+                <p v-if="errorMessage">{{ errorMessage }}</p>
               </div>
               <input
                 type="password"
@@ -56,6 +56,7 @@
             <div>
               <button
                 type="submit"
+                @click="login"
                 class="w-full px-4 py-2 text-lg font-semibold text-white transition-colors duration-300 bg-myGreen rounded-md shadow hover:bg-white focus:outline-none focus:ring-blue-200 focus:ring-4 hover:text-myGreen"
               >
                 Se connecter
@@ -85,8 +86,47 @@
     </div>
 </template>
     
+<script setup lang="ts">
+import {ref} from 'vue';
+import {useRouter} from 'vue-router';
+import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
+
+const email = ref("");
+const password = ref("");
+const errorMessage = ref()
+const router = useRouter()
+
+const login = () => {
+  const auth = getAuth()
+  signInWithEmailAndPassword(auth, email.value, password.value)
+  .then(() => {
+    console.log("Connexion réussie !");
+    console.log(auth.currentUser);
+    router.push({ name: 'log-in' });
+  })
+  .catch((error) => {
+    console.log(error.code);
+    switch (error.code) {
+      case "auth/invalid-email":
+      errorMessage.value = "Email invalide";
+      break;
+      case "auth/user-not-found":
+      errorMessage.value = "Aucun compte trouvé avec l'Email associé";
+      break;
+      case "auth/wrong-password":
+      errorMessage.value = "Mot de passe incorrect";
+      break;
+      default:
+      case "Email ou mot de passe incorrect":
+      break;
+    }
+    alert(error.message)
+  })
+}
+</script>
+
 <script lang="ts">
 export default {
-
+  name: "Log-in",
 }
 </script>
